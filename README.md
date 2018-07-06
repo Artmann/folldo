@@ -1,5 +1,7 @@
 # Folldo
 
+[![Build Status](https://travis-ci.org/Artmann/folldo.svg?branch=master)](https://travis-ci.org/Artmann/folldo)
+
 Folldo is a job queue built for Docker
 
 ## Contributing
