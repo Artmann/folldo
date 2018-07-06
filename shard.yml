@@ -1,0 +1,16 @@
+name: folldo
+version: 0.1.0
+
+authors:
+  - Christoffer Artmann <christoffer.artmann@glesys.se>
+
+targets:
+  folldo:
+    main: src/folldo.cr
+
+crystal: 0.25.1
+
+license: MIT
+
+#dependencies:
+

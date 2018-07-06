@@ -1,0 +1,6 @@
+version: 1.0
+shards:
+  timestamp:
+    github: waterlink/timestamp.cr
+    version: 0.0.1
+
