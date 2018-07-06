@@ -26,5 +26,12 @@ module Folldo
       return job
     end
 
+    def delete(id)
+      size = @jobs.size
+      @jobs = @jobs.reject { |j| j.id == id }
+
+      return @jobs.size != size
+    end
+
   end
 end

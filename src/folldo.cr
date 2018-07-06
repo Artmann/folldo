@@ -31,6 +31,10 @@ module Folldo
           response = Commands::Reserve.new(@queue).run
         end
 
+        if command == "delete"
+          response = Commands::Delete.new(@queue).run(args[0]?)
+        end
+
         client.puts response if response
 
       rescue ex

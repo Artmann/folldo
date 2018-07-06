@@ -54,4 +54,22 @@ describe Folldo::Queue do
       queue.jobs.first.state.should eq :reserved
     end
   end
+
+  describe "#delete" do
+    it "deleted the job" do
+      queue = Folldo::Queue.new
+
+      job1 = Folldo::Job.new "Foo", 0, 100
+      job2 = Folldo::Job.new "Baz", 10, 10
+      job3 = Folldo::Job.new "Bar", 0, 1000
+
+      queue.enqueue job1
+      queue.enqueue job2
+      queue.enqueue job3
+
+      queue.delete(job2.id)
+
+      queue.jobs.should eq [job1, job3]
+    end
+  end
 end
