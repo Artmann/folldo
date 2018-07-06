@@ -41,7 +41,11 @@ module Folldo
     end
 
     def start
-      server = TCPServer.new("0.0.0.0", 15200)
+      ENV["BIND_ADDRESS"] ||= "0.0.0.0"
+      ENV["PORT"] ||= "15200"
+
+      server = TCPServer.new(ENV["BIND_ADDRESS"], ENV["PORT"].to_i)
+
       while client = server.accept?
         spawn handle_client(client)
       end
