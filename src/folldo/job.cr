@@ -14,5 +14,10 @@ module Folldo
       @state = @delay > 0 ? :delayed : :ready
       @queued_at = Time.now.epoch
     end
+
+    def reserve
+      @state = :reserved
+      return self
+    end
   end
 end

@@ -21,7 +21,10 @@ describe Folldo::Queue do
       queue.enqueue job1
       queue.enqueue job2
 
-      queue.reserve.should eq job2
+      job = queue.reserve
+
+      job.should be_truthy
+      job.id.should eq job2.id if job
     end
 
     it "returns the job with lowest priority" do
@@ -35,7 +38,20 @@ describe Folldo::Queue do
       queue.enqueue job2
       queue.enqueue job3
 
-      queue.reserve.should eq job2
+      job = queue.reserve
+      job.should be_truthy
+      job.id.should eq job2.id if job
+    end
+
+    it "marks the job as reserved" do
+      queue = Folldo::Queue.new
+
+      queue.enqueue Folldo::Job.new("Foo", 0, 100)
+      job = queue.reserve
+
+      job.should be_truthy
+      job.state.should eq :reserved if job
+      queue.jobs.first.state.should eq :reserved
     end
   end
 end

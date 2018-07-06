@@ -19,7 +19,11 @@ module Folldo
 
       return nil if availableJobs.size == 0
 
-      @jobs.delete(availableJobs.first)
+      job = availableJobs[0].reserve
+
+      @jobs = @jobs.map { |j| j.id == job.id ? job : j}
+
+      return job
     end
 
   end
