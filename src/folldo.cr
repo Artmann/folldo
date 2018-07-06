@@ -1,13 +1,16 @@
 require "socket"
+require "uuid"
 
 require "./folldo/commands/*"
 require "./folldo/queue"
 
 module Folldo
   class Folldo
+    property queue : Queue, id : String
 
     def initialize
       @queue = Queue.new
+      @id = UUID.random.to_s
     end
 
     def handle_client(client)
@@ -36,7 +39,6 @@ module Folldo
         end
 
         client.puts response if response
-
       rescue ex
         puts ex.message
       ensure
@@ -47,6 +49,38 @@ module Folldo
     def start
       ENV["BIND_ADDRESS"] ||= "0.0.0.0"
       ENV["PORT"] ||= "15200"
+
+
+      spawn do
+        socket = UDPSocket.new(Socket::Family::INET)
+        socket.broadcast = true
+
+        socket.connect("172.17.255.255", 15300)
+
+        while true
+          begin
+            socket.puts("Hello I am #{@id}")
+            p "sent ping"
+            sleep 1.seconds
+          rescue ex
+            p ex.message
+          end
+        end
+
+        socket.close
+      end
+
+      spawn do
+        client = UDPSocket.new
+        client.bind "172.17.255.255", 15300
+        while true
+          p "waiting"
+          p client.gets
+
+        end
+        client.close
+      end
+
 
       server = TCPServer.new(ENV["BIND_ADDRESS"], ENV["PORT"].to_i)
 
